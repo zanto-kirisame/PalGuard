@@ -34,7 +34,7 @@ export const Sidebar = () => {
                 ))}
             </nav>
             <div className="p-4 border-t border-gray-800 text-xs text-gray-500">
-                v0.1.0
+                v{__APP_VERSION__}
             </div>
         </aside>
     )
