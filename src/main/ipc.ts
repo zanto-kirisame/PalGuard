@@ -2,6 +2,7 @@ import { ipcMain, dialog } from 'electron'
 import { store } from './store'
 import fs from 'fs'
 import path from 'path'
+import { PakReader } from './pakReader'
 
 export function registerIpcHandlers(): void {
     ipcMain.handle('select-folder', async () => {
@@ -158,53 +159,40 @@ export function registerIpcHandlers(): void {
         return true;
     })
 
-    // minimal buffer reader for PAK
-    const readPakIndex = (filePath: string): string[] => {
-        try {
-            // Check file size first to avoid memory issues with huge PAKs
-            const stats = fs.statSync(filePath);
-            if (stats.size > 1024 * 1024 * 1024) { // 1GB limit
-                console.log(`Skipping large PAK file: ${filePath} (${(stats.size / 1024 / 1024 / 1024).toFixed(2)} GB)`);
-                return [];
-            }
-
-            const content = fs.readFileSync(filePath, { encoding: 'latin1' }); // Binary string
-            // Improved regex: look for /Pal/Content/... assets with extension
-            // Also enforce minimum length and common asset paths to reduce noise
-            const matches = content.match(/\/Pal\/Content\/[A-Za-z0-9_./-]+\.(?:uasset|umap|uexp)/g);
-            return matches ? [...new Set(matches.map(m => m.toLowerCase()))] : [];
-
-        } catch (e) {
-            console.error(`Failed to read PAK ${filePath}`, e);
-            return [];
-        }
-    };
-
     ipcMain.handle('scan-conflicts', async (_, mods: any[]) => {
-        const conflictMap = new Map<string, string[]>();
+        const conflictMap = new Map<string, { asset: string, mods: { name: string, path: string }[] }>();
 
         for (const mod of mods) {
             if (mod.type === 'pak' && mod.isEnabled) {
-                const files = readPakIndex(mod.path);
-                for (const file of files) {
-                    if (!conflictMap.has(file)) {
-                        conflictMap.set(file, []);
+                const reader = new PakReader(mod.path);
+                try {
+                    const assets = reader.getAssetPaths();
+                    for (const asset of assets) {
+                        if (!conflictMap.has(asset)) {
+                            conflictMap.set(asset, { asset, mods: [] });
+                        }
+                        conflictMap.get(asset)?.mods.push({
+                            name: mod.name,
+                            path: mod.path
+                        });
                     }
-                    conflictMap.get(file)?.push(mod.name);
+                } catch (e) {
+                    console.error(`Failed to scan mod ${mod.name}`, e);
+                } finally {
+                    reader.close();
                 }
             }
         }
 
         const conflicts: any[] = [];
-        conflictMap.forEach((modNames, assetPath) => {
-            if (modNames.length > 1) {
-                conflicts.push({
-                    asset: assetPath,
-                    mods: modNames
-                })
+        conflictMap.forEach((data) => {
+            if (data.mods.length > 1) {
+                conflicts.push(data);
             }
         });
 
+        // Store for future multiplayer config sharing
+        // This structure can be serialized to JSON and shared.
         return conflicts;
     })
 
