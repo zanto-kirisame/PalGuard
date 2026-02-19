@@ -22,7 +22,7 @@ export const Settings = () => {
     }
 
     return (
-        <div className="p-8 space-y-6">
+        <div className="space-y-6">
             <h2 className="text-2xl font-bold text-white">{t.settings.title}</h2>
 
             {/* Installation Path */}

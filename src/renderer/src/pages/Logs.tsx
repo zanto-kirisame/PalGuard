@@ -57,7 +57,7 @@ export const Logs = () => {
         .slice(0, 5); // Top 5
 
     return (
-        <div className="p-8 h-full flex flex-col">
+        <div className="h-full flex flex-col">
             <h2 className="text-2xl font-bold mb-6 text-white flex justify-between items-center">
                 <span>{t.logs.title}</span>
                 <div className="flex gap-2">

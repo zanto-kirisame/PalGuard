@@ -47,8 +47,18 @@ export const translations = {
             language: '言語設定 (Language)',
             saveStatus: '設定を保存しました',
             placeholder: 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Palworld'
+        },
+        updates: {
+            title: 'アップデート情報',
+            newVersion: '新バージョンが利用可能です',
+            palworld: 'Palworld',
+            ue4ss: 'UE4SS',
+            palschema: 'Pal Schema',
+            backupWarning: '※更新直後はMODが壊れる可能性があるので、バックアップを忘れずに',
+            latest: '最新'
         }
     },
+
     en: {
         sidebar: {
             modList: 'Mod List',
@@ -97,6 +107,15 @@ export const translations = {
             language: 'Language Settings',
             saveStatus: 'Settings saved',
             placeholder: 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Palworld'
+        },
+        updates: {
+            title: 'Update Info',
+            newVersion: 'New version available',
+            palworld: 'Palworld',
+            ue4ss: 'UE4SS',
+            palschema: 'Pal Schema',
+            backupWarning: '* Mods may break after updates. Don\'t forget to backup.',
+            latest: 'Latest'
         }
     }
 };

@@ -3,6 +3,7 @@ import { store } from './store'
 import fs from 'fs'
 import path from 'path'
 import { PakReader } from './pakReader'
+import { checkUpdates } from './updateMonitor'
 
 export function registerIpcHandlers(): void {
     ipcMain.handle('select-folder', async () => {
@@ -21,6 +22,10 @@ export function registerIpcHandlers(): void {
         return {
             palworldInstallPath: store.get('palworldInstallPath')
         }
+    })
+
+    ipcMain.handle('check-updates', async () => {
+        return await checkUpdates()
     })
 
     ipcMain.handle('scan-mods', async (_, installPath: string) => {

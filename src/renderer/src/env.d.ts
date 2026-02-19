@@ -9,6 +9,7 @@ export interface IAPI {
     readLogs: (path: string) => Promise<{ pal: string[]; ue4ss: string[] }>
     setLoadOrder: (modPaths: string[]) => Promise<boolean>
     resetLoadOrder: (modPaths: string[]) => Promise<boolean>
+    checkUpdates: () => Promise<Record<string, { latest: string; url?: string }>>
 }
 
 declare global {

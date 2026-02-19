@@ -62,8 +62,9 @@ export const ModList = () => {
     }
 
     return (
-        <div className="p-8 h-full flex flex-col">
+        <div className="flex flex-col h-full">
             <header className="flex justify-between items-center mb-6">
+
                 <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                     📦 {t.modList.title}
                 </h2>
@@ -187,3 +188,4 @@ export const ModList = () => {
         </div>
     )
 }
+
