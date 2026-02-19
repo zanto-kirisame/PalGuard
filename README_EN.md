@@ -8,13 +8,14 @@ A lightweight, high-performance tool for managing Palworld patch mods (.pak) and
 - **Priority (Load Order) Management**: Adjust mod priority using intuitive Up/Down buttons to handle asset conflicts.
 - **Lightweight Conflict Detection**: Directly parses `.pak` file indexes to identify specific asset conflicts (e.g., two mods modifying the same Pal) without external tools.
 - **Conflict Visualization**: Easily identify which mods are overwriting specific assets and see the "Winner" mod based on load order.
-- **External Tool Update Monitoring**: Automatically checks for the latest versions of Palworld, UE4SS, and Pal Schema. Reminds you of the importance of backups.
+- **Enhanced External Tool Monitoring**: Added release dates and direct links to official download pages.
+- **Improved UI Visibility**: Fixed layout issues where notification banners were partially hidden.
 - **UI Stabilization**: Fixed layout jitters during tab switching for a smoother experience.
 - **Multi-language Support**: Supports both Japanese and English.
 
 ## Installation
 
-1. Download `PalGuard_v1.2.0.zip` from the [Releases] page.
+1. Download `PalGuard_v1.2.1.zip` from the [Releases] page.
 2. Extract to your preferred location.
 3. Run `PalGuard.exe`.
 4. Go to Settings and select your Palworld installation folder.

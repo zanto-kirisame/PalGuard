@@ -62,7 +62,7 @@ export const ModList = () => {
     }
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col flex-1 overflow-hidden">
             <header className="flex justify-between items-center mb-6">
 
                 <h2 className="text-2xl font-bold text-white flex items-center gap-2">

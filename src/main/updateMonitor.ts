@@ -4,6 +4,7 @@ import { store } from './store'
 interface UpdateInfo {
     latest: string;
     url?: string;
+    date?: string;
 }
 
 interface UpdateCache {
@@ -42,7 +43,8 @@ async function getGithubUpdate(repo: string): Promise<UpdateInfo> {
         const response = await fetchJson(`https://api.github.com/repos/${repo}/releases/latest`);
         return {
             latest: response.tag_name || 'unknown',
-            url: response.html_url
+            url: response.html_url,
+            date: response.published_at ? new Date(response.published_at).toLocaleDateString('ja-JP') : undefined
         };
     } catch (e) {
         console.error(`Failed to fetch updates for ${repo}`, e);
@@ -53,10 +55,14 @@ async function getGithubUpdate(repo: string): Promise<UpdateInfo> {
 async function getPalworldUpdate(): Promise<UpdateInfo> {
     try {
         const response = await fetchJson(`https://api.steamcmd.net/v1/info/2488200`);
-        const buildid = response.data['2488200']?.depots?.branches?.public?.buildid;
+        const publicBranch = response.data['2488200']?.depots?.branches?.public;
+        const buildid = publicBranch?.buildid;
+        const timeupdated = publicBranch?.timeupdated;
+
         return {
             latest: buildid ? `Build ${buildid}` : 'unknown',
-            url: 'https://store.steampowered.com/news/app/2488200'
+            url: 'https://store.steampowered.com/news/app/2488200',
+            date: timeupdated ? new Date(Number(timeupdated) * 1000).toLocaleDateString('ja-JP') : undefined
         };
     } catch (e) {
         console.error(`Failed to fetch Palworld updates`, e);
