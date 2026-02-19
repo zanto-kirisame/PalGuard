@@ -12,9 +12,8 @@ export interface IAPI {
     checkUpdates: () => Promise<Record<string, { latest: string; url?: string; date?: string }>>
 }
 
-declare const __APP_VERSION__: string
-
 declare global {
+    const __APP_VERSION__: string
     interface Window {
         electron: any
         api: IAPI
